@@ -52,23 +52,32 @@ class App extends Component {
     let average_score = 0
     let tempScore = { ...this.state.score };
     tempScore['country'] = event.target.value;
+    console.log("tempScore ", tempScore.country)
+    let counter = 0;
     if (this.state.selectedOption === "test_data") {
-
+      counter = 0;
       average_score = this.test_data.filter(function (data) {
-        return data.country === event.target.value
+        if (data.country === event.target.value) {
+          counter++;
+          return data.country === event.target.value
+        }
       }).reduce(function (total, currentValue) {
         return total + currentValue.score;
       }, 0);
     }
     else {
+      counter = 0;
       average_score = this.server_data.filter(function (data) {
-        return data[0] === event.target.value
+        if (data[0] == event.target.value) {
+          counter++;
+          return data[0] === event.target.value
+        }
       }).reduce(function (total, currentValue) {
         return total + currentValue[1];
       }, 0);
     }
 
-    tempScore['average_score'] = average_score / 3
+    tempScore['average_score'] = average_score / counter
     this.setState({ score: tempScore });
   }
 
